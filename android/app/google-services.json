@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "932674153245",
+    "project_id": "todo-c11-online",
+    "storage_bucket": "todo-c11-online.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932674153245:android:6cec95ef167f8862e5cff4",
+        "android_client_info": {
+          "package_name": "com.example.todo_c11_online"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvsI_hNKmnFJSzUoBtjaaOAMZ7L6AGcu0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

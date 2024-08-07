@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
+        color: Theme.of(context).primaryColor,
         notchMargin: 8,
         padding: EdgeInsets.zero,
         shape: CircularNotchedRectangle(),
@@ -84,5 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  String x="x>6 : true";
   List<Widget> tabs = [TasksTab(), SettingsTab()];
 }
+
+// "Select * from TableName w"
+// "insert into tableName"
