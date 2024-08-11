@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_c11_online/app_colors.dart';
+import 'package:todo_c11_online/firebase_functions.dart';
+import 'package:todo_c11_online/models/task_model.dart';
 
 class TaskItem extends StatelessWidget {
-  const TaskItem({super.key});
+  TaskModel taskModel;
+
+  TaskItem({required this.taskModel, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +20,11 @@ class TaskItem extends StatelessWidget {
           color: Colors.white, borderRadius: BorderRadius.circular(25)),
       child: Slidable(
         startActionPane:
-            ActionPane(motion: DrawerMotion(), extentRatio: .6, children: [
+        ActionPane(motion: DrawerMotion(), extentRatio: .6, children: [
           SlidableAction(
-            onPressed: (context) {},
+            onPressed: (context) {
+              FirebaseFunctions.deleteTask(taskModel.id);
+            },
             label: "Delete",
             backgroundColor: Colors.red,
             icon: Icons.delete,
@@ -43,7 +49,7 @@ class TaskItem extends StatelessWidget {
                 height: 80,
                 width: 4,
                 decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: taskModel.isDone ? Colors.green : AppColors.primary,
                     borderRadius: BorderRadius.circular(25)),
               ),
               SizedBox(
@@ -55,14 +61,15 @@ class TaskItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Task Title",
+                      taskModel.title,
                       style: TextStyle(
                         fontSize: 18,
-                        color: AppColors.primary,
+                        color:
+                        taskModel.isDone ? Colors.green : AppColors.primary,
                       ),
                     ),
                     Text(
-                      "Task Description",
+                      taskModel.subTitle,
                       style: TextStyle(
                         fontSize: 14,
                         color: AppColors.grey,
@@ -71,8 +78,19 @@ class TaskItem extends StatelessWidget {
                   ],
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {},
+              taskModel.isDone
+                  ? Text(
+                "DONE!!",
+                style: TextStyle(color: Colors.green, fontSize: 22),
+              )
+                  : ElevatedButton(
+                onPressed: () {
+                  taskModel.isDone = true;
+                  FirebaseFunctions.updateTask(taskModel);
+                  Future.delayed(Duration(seconds: 4), () {
+                    FirebaseFunctions.deleteTask(taskModel.id);
+                  },);
+                },
                 child: Icon(
                   Icons.done,
                   color: Colors.white,
