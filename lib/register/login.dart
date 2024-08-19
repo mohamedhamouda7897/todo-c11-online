@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_c11_online/firebase_functions.dart';
 import 'package:todo_c11_online/home.dart';
+import 'package:todo_c11_online/providers/my_provider.dart';
 import 'package:todo_c11_online/register/signUp.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -13,6 +15,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<MyProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login Screen'),
@@ -57,10 +60,14 @@ class LoginScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 FirebaseFunctions.login(
-                    emailController.text, passwordController.text, () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, HomeScreen.routeName, (route) => false);
-                },(error){
+                    emailController.text, passwordController.text, () async {
+                  provider.initUser().then(
+                    (value) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, HomeScreen.routeName, (route) => false);
+                    },
+                  );
+                }, (error) {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(

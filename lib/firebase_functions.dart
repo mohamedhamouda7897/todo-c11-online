@@ -37,6 +37,13 @@ class FirebaseFunctions {
     docRef.set(userModel);
   }
 
+  static Future<UserModel?> readUserData() async {
+    var collection = getUsersCollection();
+
+    DocumentSnapshot<UserModel> docUser = await collection.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return docUser.data();
+  }
+
   static Future<void> addTask(TaskModel task) {
     var collection = getTaskCollection();
     var docRef = collection.doc();
@@ -67,9 +74,7 @@ class FirebaseFunctions {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
-      if (credential.user?.emailVerified == true) {
-        onSuccess();
-      }
+      onSuccess();
     } on FirebaseAuthException catch (e) {
       onError(e.message);
     }

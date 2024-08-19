@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_c11_online/app_colors.dart';
 import 'package:todo_c11_online/bottom_sheets/add_task_bottom_sheet.dart';
+import 'package:todo_c11_online/providers/my_provider.dart';
+import 'package:todo_c11_online/register/login.dart';
 import 'package:todo_c11_online/tabs/settings_tab.dart';
 import 'package:todo_c11_online/tabs/tasks_tab.dart';
 
@@ -18,13 +22,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var pro = Provider.of<MyProvider>(context);
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.secondary,
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, LoginScreen.routeName, (route) => false);
+              },
+              icon: Icon(Icons.logout))
+        ],
         backgroundColor: AppColors.primary,
         title: Text(
-          "ToDo App",
+          "ToDo App ${pro.userModel?.username}",
           style: TextStyle(
             fontSize: 30,
             color: Colors.white,
@@ -84,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  String x="x>6 : true";
+  String x = "x>6 : true";
   List<Widget> tabs = [TasksTab(), SettingsTab()];
 }
 

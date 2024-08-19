@@ -21,7 +21,7 @@ class TaskModel {
           subTitle: json['subTitle'],
           date: json['date'],
           id: json['id'],
-    userId: json['userId'],
+          userId: json['userId'],
           isDone: json['isDone'],
         );
 
